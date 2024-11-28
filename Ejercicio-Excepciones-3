@@ -1,0 +1,55 @@
+class FondosInsuficientesException extends Exception {
+    public FondosInsuficientesException(String mensaje) {
+        super(mensaje);
+    }
+}
+
+public class CuentaBancaria {
+    private String nombreTitular;
+    private double saldo;
+
+    public CuentaBancaria(String nombreTitular, double saldoInicial) {
+        this.nombreTitular = nombreTitular;
+        this.saldo = saldoInicial;
+    }
+
+    public void depositar(double monto) {
+        if (monto > 0) {
+            saldo += monto;
+            System.out.println("Depósito de $" + monto + " realizado. Saldo actual: $" + saldo);
+        } else {
+            System.out.println("El monto a depositar debe ser positivo.");
+        }
+    }
+
+    public void retirar(double monto) throws FondosInsuficientesException {
+        if (monto > saldo) {
+            throw new FondosInsuficientesException(
+                "Saldo insuficiente. Saldo actual: $" + saldo + 
+                ", Monto solicitado: $" + monto
+            );
+        }
+        
+        saldo -= monto;
+        System.out.println("Retiro de $" + monto + " realizado. Saldo actual: $" + saldo);
+    }
+
+    public double consultarSaldo() {
+        return saldo;
+    }
+
+    public static void main(String[] args) {
+        try {
+            CuentaBancaria cuenta = new CuentaBancaria("Juan Pérez", 1000);
+            
+            cuenta.depositar(500);
+            
+            cuenta.retirar(300);
+            
+            cuenta.retirar(2000);
+            
+        } catch (FondosInsuficientesException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+}
