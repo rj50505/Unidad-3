@@ -1,0 +1,76 @@
+import java.util.ArrayList;
+import java.util.List;
+
+public class GestorLista {
+    private List<String> elementos;
+
+    public GestorLista() {
+        elementos = new ArrayList<>();
+    }
+
+    public void agregarElemento(String elemento) {
+        elementos.add(elemento);
+        System.out.println("Elemento agregado: " + elemento);
+    }
+
+    public String obtenerElemento(int indice) throws IndexOutOfBoundsException {
+        if (indice < 0 || indice >= elementos.size()) {
+            throw new IndexOutOfBoundsException("Índice inválido. Tamaño de la lista: " 
+                + elementos.size() + ", Índice solicitado: " + indice);
+        }
+        
+        return elementos.get(indice);
+    }
+
+    public void eliminarElemento(int indice) throws IndexOutOfBoundsException {
+        if (indice < 0 || indice >= elementos.size()) {
+            throw new IndexOutOfBoundsException("Índice inválido para eliminación. Tamaño de la lista: " 
+                + elementos.size() + ", Índice solicitado: " + indice);
+        }
+        
+        String elementoEliminado = elementos.remove(indice);
+        System.out.println("Elemento eliminado: " + elementoEliminado);
+    }
+
+    public void mostrarElementos() {
+        if (elementos.isEmpty()) {
+            System.out.println("La lista está vacía.");
+            return;
+        }
+        
+        System.out.println("Elementos en la lista:");
+        for (int i = 0; i < elementos.size(); i++) {
+            System.out.println("Índice " + i + ": " + elementos.get(i));
+        }
+    }
+
+    public static void main(String[] args) {
+        GestorLista gestor = new GestorLista();
+
+        try {
+            gestor.agregarElemento("Manzana");
+            gestor.agregarElemento("Banana");
+            gestor.agregarElemento("Cereza");
+
+            gestor.mostrarElementos();
+
+            System.out.println("\nObteniendo elementos:");
+            System.out.println("Elemento en índice 1: " + gestor.obtenerElemento(1));
+            
+            System.out.println("Elemento en índice 5: " + gestor.obtenerElemento(5));
+
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Error de índice: " + e.getMessage());
+        }
+
+        try {
+            System.out.println("\nEliminando elementos:");
+            gestor.eliminarElemento(0);
+            
+            gestor.eliminarElemento(5);
+
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Error de índice: " + e.getMessage());
+        }
+    }
+}
